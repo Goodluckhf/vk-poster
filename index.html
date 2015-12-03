@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Выгрузка продуктов</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/jquery.js"></script>
+        <script src="/bootstrap.js"></script>
+        <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
+        <script src="/EventsContainer.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            VK.init({
+                apiId: 5162982
+            });
+
+        </script>       
+        <link rel='stylesheet' href="style.css">
+        <link rel='stylesheet' href="/bootstrap.css">
+        <script language="javascript">
+
+            var App = (new function () {
+                var products = {};
+                var events = new EventsContainer();
+                var isReady = false;
+                events.register('ready');
+
+                this.onReady = function (callback) {
+                    if (isReady) {
+                        callback();
+                    }
+                    else {
+                        events.listen('ready', callback);
+                    }
+                }
+
+                  
+                
+
+                
+
+
+                this.start = function () {
+                    Loader.go();
+                    VK.Auth.login(function (data) {
+                        if (!data.session) {
+                            alert("Нужно авторизоваться!");
+                            Loader.stop();
+                        }
+                        else {
+                            events.trigger('ready');
+                            
+                        }
+                    }, 262148);
+
+                }
+
+            });
+
+            var Loader = (new function () {
+                var _template = '<div id="loader" class="loader">' +
+                        '<img src="ajax-loader.gif" />' +
+                        '</div>';
+                this.go = function () {
+                    $('.container').append(_template);
+                }
+                this.stop = function () {
+                    $('#loader').remove();
+                }
+            });
+
+            $(function () {
+                $('button.search').click(function() {
+                    var group = $('input.group-name').val().trim();
+                    VK.Api.call('wall.get', {domain: group, count: 3}, function(r) {
+                        if(r.response) {
+                            //alert('Привет, ' + r.response[0].first_name);
+                            console.log(r);
+                        }
+                    }); 
+                });
+                App.onReady(function() {
+                    $('.btn.login').remove();
+                    $('.search-input').css({display: 'block'});
+                   
+                    var str = '';
+                    
+                    
+                });
+                $('.login').click(function () {
+                    App.start();
+                });
+
+                
+
+
+            });
+
+        </script>
+    </head>
+    <body>
+
+
+        <div id="container" class="cont">
+            <button class="btn btn-primary login">Войти ВКонтакте</button>
+            <div class="panel panel-default search-input">
+                <div class="panel-body">
+                    <div class="search-cont">
+                        <div class="input-group">
+                            <input class="form-control group-name"  type="text" placeholder="группа">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary search" type="button">Поехали!</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="groups-recieve">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>
