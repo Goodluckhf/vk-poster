@@ -24,6 +24,7 @@ var AuthService = (new function () {
                 Loader.stop();
             }
             else {
+                Loader.stop();
                 user = data.session.user;
                 token = data.session.sid;
                 isReady = true;

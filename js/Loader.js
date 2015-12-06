@@ -3,7 +3,7 @@ var Loader = (new function () {
                         '<img src="/img/ajax-loader.gif" />' +
                     '</div>';
     this.go = function () {
-        $('.container').append(_template);
+        $('.cont').append(_template);
     }
     this.stop = function () {
         $('#loader').remove();

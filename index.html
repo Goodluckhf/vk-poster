@@ -16,6 +16,8 @@ and open the template in the editor.
         <script src="/js/Request.js" type="text/javascript"></script>
         <script src="/js/AuthService.js" type="text/javascript"></script>
         <script src="/js/Loader.js" type="text/javascript"></script>
+        <script src="/js/datepicker.js" type="text/javascript"></script>
+        <script src="/js/Menu.js" type="text/javascript"></script>
         <script src="/js/Posts.js" type="text/javascript"></script>
         <script type="text/javascript">
             VK.init({
@@ -26,6 +28,8 @@ and open the template in the editor.
         <link rel='stylesheet' href="/css/style.css">
         <link rel='stylesheet' href="/css/bootstrap.css">
         <link rel='stylesheet' href="/css/lte.css">
+        <link rel='stylesheet' href="/css/datepicker.css">
+        <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <script language="javascript">
 
             var App = (new function () {
@@ -66,6 +70,8 @@ and open the template in the editor.
                     $('.search-cont').css({display: 'block'});
                     console.log({user: AuthService.user(), token: AuthService.token()});
                     var str = '';
+                    var menu = new Menu();
+                    menu.render();
                     
                     
                 });
@@ -83,22 +89,32 @@ and open the template in the editor.
     <body>
 
 
-        <div id="content-wrapper" class="cont">
-            <button class="btn btn-primary login">Войти ВКонтакте</button>
-            
-            <div class="search-cont">
-                <div class="input-group">
-                    <input class="form-control group-name"  type="text" placeholder="группа">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary search" type="button">Поехали!</button>
-                    </span>
-                </div>
-            </div>
-            <div class="groups-recieve">
+        <!--div class="content-wrapper cont" -->
+        <div class="wrapper">
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    
+                </section>
+                
+            </aside>
+            <div class=" content-wrapper" >
+                <section class="content">
+                    <button class="btn btn-primary login">Войти ВКонтакте</button>
 
+                    <div class="search-cont">
+                        <div class="input-group">
+                            <input class="form-control group-name"  type="text" placeholder="группа">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary search" type="button">Поехали!</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="groups-recieve">
+
+                    </div>
+                </section>
             </div>
-        </div>
-           
+        </div> 
         
     </body>
 </html>

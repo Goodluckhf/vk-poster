@@ -35,7 +35,7 @@ body {
     background: rgba(0, 0, 0, 0) url("../img/boxed-bg.jpg") repeat fixed 0 0;
 }
 .content-wrapper, .right-side, .main-footer {
-    margin-left: 230px;
+    margin-left: 350px;
     transition: transform 0.3s ease-in-out 0s, margin 0.3s ease-in-out 0s;
     z-index: 820;
 }
@@ -323,7 +323,7 @@ a:hover, a:active, a:focus {
     position: absolute;
     top: 0;
     transition: transform 0.3s ease-in-out 0s, width 0.3s ease-in-out 0s;
-    width: 230px;
+    width: 350px;
     z-index: 810;
 }
 @media (max-width: 767px) {

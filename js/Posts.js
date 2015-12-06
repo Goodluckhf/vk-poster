@@ -12,8 +12,7 @@ var Posts = function(group) {
                                 '<p class="post-message"></p>' +
                                 '<div class="attachment-block clearfix">' +                                    
                                 '</div>' +
-                                '<button class="btn btn-default btn-xs" type="button"><i class="fa fa-share"></i> Share</button>' +
-                                '<button class="btn btn-default btn-xs" type="button"><i class="fa fa-thumbs-o-up"></i> Like</button>' +
+                                '<button style="margin-left: 48%;" class="btn btn-primary accept-post" type="button"><i class="fa fa-share"></i>Беру!</button>' +
                                 '<span class="pull-right post-likes-reposts"></span>' +
                             '</div>' +
                         '</div>',
@@ -21,8 +20,13 @@ var Posts = function(group) {
         groupName = group.trim(),
         containerSelector = '.groups-recieve';
     
+    $(containerSelector).on('click', '.accept-post', function() {
+        console.log(this);
+    });
+    
     this.render = function() {
         return this.load().done(function(data) {
+            $(containerSelector).html(" ");
             for(var i in posts) {
                 var $item = $(templateItem);
                 var text;
@@ -91,17 +95,7 @@ var Posts = function(group) {
             min = ('0' + d.getMinutes()).slice(-2),		// Add leading 0.
             ampm = 'AM',
             time;
-//        if (hh > 12) {
-//                h = hh - 12;
-//                ampm = 'PM';
-//        } else if (hh === 12) {
-//                h = 12;
-//                ampm = 'PM';
-//        } else if (hh == 0) {
-//                h = 12;
-//        }
-
-        // ie: 2013-02-18, 8:35 AM	
+	
         time = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min;
 
         return time;
