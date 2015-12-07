@@ -21,10 +21,8 @@ var AuthService = (new function () {
         VK.Auth.login(function (data) {
             if (!data.session) {
                 alert("Нужно авторизоваться!");
-                Loader.stop();
             }
             else {
-                Loader.stop();
                 user = data.session.user;
                 token = data.session.sid;
                 isReady = true;

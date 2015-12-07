@@ -18,7 +18,7 @@ var Posts = function(group) {
                         '</div>',
         count,
         groupName = group.trim(),
-        containerSelector = '.groups-recieve';
+        containerSelector = App.contentSelector;
     
     $(containerSelector).on('click', '.accept-post', function() {
         console.log(this);
@@ -27,7 +27,9 @@ var Posts = function(group) {
     this.render = function() {
         return this.load().done(function(data) {
             $(containerSelector).html(" ");
+            var isNotPhoto;
             for(var i in posts) {
+                isNotPhoto = false;
                 var $item = $(templateItem);
                 var text;
                 if(posts[i].text.length > 300) {
@@ -45,9 +47,17 @@ var Posts = function(group) {
                 //$item.find('.user-block .description').text(posts[i].date);
                 var attachments = posts[i].attachments;
                 //console.log(attachments);
+               
                 for(var j in attachments) {
-                    //console.log($item.find('.attachment-block'));
-                    $item.find('.attachment-block').append('<img src="' + attachments[j].photo.photo_130 + '">');
+                    if(attachments[j].type == 'photo') {
+                        $item.find('.attachment-block').append('<img src="' + attachments[j].photo.photo_130 + '">');
+                    }
+                    else {
+                        isNotPhoto = true;
+                    }                    
+                }
+                if(isNotPhoto) {
+                    continue;
                 }
                 $(containerSelector).append($item);
             }
