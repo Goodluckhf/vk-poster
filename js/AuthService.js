@@ -38,9 +38,9 @@ var AuthService = (new function () {
                 })
                 
             }
-        }, 262148);
+        }, 270340);
     }
-    
+    //262144 + 4 + 8192
     this.user = function() {
         return user;
     }

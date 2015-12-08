@@ -28,6 +28,7 @@ var App = (new function () {
 
 
 $(function () {
+
     $('body').on('click', 'a.expand-text', function (e) {
         e.preventDefault();
 
@@ -42,16 +43,23 @@ $(function () {
 
     });
     AuthService.onReady(function () {
-
         console.log({user: AuthService.user(), token: AuthService.token()});
         var str = '';
         bootbox.hideAll();
         $('.date-picker').datetimepicker({
             locale: 'ru',
-            stepping: 5,
+            stepping: 1,
             toolbarPlacement: 'bottom'
             //sideBySide: true
         });
+        $('.saveConfig').click(function() {
+            PostProvider.start({
+                startDate: $('.date-picker').data('DateTimePicker').date().unix(),
+                dateInterval: 45,
+                publicId : -107952301,
+            });
+        });
+        
         
 
     });

@@ -4,9 +4,9 @@ var PostProvider = (new function() {
     
     this.datePicker;
     
-    $(function() {
-        me.datePicker = $('.date-picker').data('DateTimePicker');
-    });
+//    $(function() {
+//        me.datePicker = $('.date-picker').data('DateTimePicker');
+//    });
     this.startDate;
     
     this.currentDate;
@@ -18,6 +18,7 @@ var PostProvider = (new function() {
     this.postAsGroup = 1;
     
     this.start = function(data) {
+        console.log(data);
         this.startDate = data.startDate;
         this.currentDate = data.startDate;
         this.dateInterval = data.interval || 30;
@@ -31,14 +32,21 @@ var PostProvider = (new function() {
         data.message = d.message;
         data.attachments = d.attachments;
         data.publish_date = this.currentDate;
+        data.owner_id = this.publicId;
+        data.v = 5.40;
+        
+        console.log(data);
         return Request.api("wall.post", data).done(function() {
             me.inc();
         });      
     }
     
     this.inc = function() {
-        var newTime = this.datePicker.date().add(this.dateInterval, 'm').toDate();
-        this.datePicker.date(newTime);
+        var newTime = $('.date-picker').data('DateTimePicker').date().add(this.dateInterval, 'm').toDate();
+        $('.date-picker').data('DateTimePicker').date(newTime);
         this.currentDate = newTime;
     }
+    
+    
+    
 });

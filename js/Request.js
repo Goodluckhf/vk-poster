@@ -9,6 +9,7 @@ var Request = (new function() {
             url: 'https://api.vk.com/method/' + method,
             dataType: 'jsonp',
             data: data,
+           // method: 'post'
         });
     }
     
