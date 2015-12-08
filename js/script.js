@@ -1,7 +1,7 @@
 var App = (new function () {
     var events = new EventsContainer();
     events.register('ready');
-    
+
     this.contentSelector = 'section.content .tab-content';
 
     this.loadingBlock = function (block) {
@@ -46,6 +46,12 @@ $(function () {
         console.log({user: AuthService.user(), token: AuthService.token()});
         var str = '';
         bootbox.hideAll();
+        $('.date-picker').datetimepicker({
+            locale: 'ru',
+            stepping: 5,
+            toolbarPlacement: 'bottom'
+            //sideBySide: true
+        });
 
     });
     $('body').on('click', '.login', function () {

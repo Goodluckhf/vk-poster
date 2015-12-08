@@ -75,3 +75,14 @@
 .post-message {
     white-space: pre-line;
 }
+.date-picker-div {
+    margin: 10px;
+}
+
+.date-picker {
+    background-color: #374850;
+    border: 1px solid transparent;
+    border-radius: 3px !important;
+    box-shadow: none;
+    height: 35px;
+}
