@@ -1,5 +1,6 @@
 var AuthService = (new function () {
     var user,
+        groups,
         token,
         events = new EventsContainer(),
         isReady = false,
@@ -27,7 +28,15 @@ var AuthService = (new function () {
                 token = data.session.sid;
                 isReady = true;
                 isAuth = true;
-                events.trigger('ready');
+                Request.api('groups.get', {
+                    filter: 'admin',
+                    extended: 1,
+                    v: 5.40
+                }).done(function(gr) {
+                    groups = gr.response.items;
+                    events.trigger('ready');
+                })
+                
             }
         }, 262148);
     }
@@ -42,6 +51,10 @@ var AuthService = (new function () {
     
     this.isAuth = function() {
         return isAuth;
+    }
+    
+    this.getGroups = function() {
+        return groups;
     }
 
 });

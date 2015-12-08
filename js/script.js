@@ -52,6 +52,7 @@ $(function () {
             toolbarPlacement: 'bottom'
             //sideBySide: true
         });
+        
 
     });
     $('body').on('click', '.login', function () {

@@ -75,11 +75,13 @@
 .post-message {
     white-space: pre-line;
 }
-.date-picker-div {
+.date-picker-div,
+.group-inp-div {
     margin: 10px;
 }
 
-.date-picker {
+.date-picker,
+.group-inp {
     background-color: #374850;
     border: 1px solid transparent;
     border-radius: 3px !important;
