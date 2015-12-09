@@ -69,7 +69,7 @@ var AuthService = (new function () {
         else {
             //this.loadingBlock('.modal-dialog');
             //window.location.href = "https://oauth.vk.com/authorize?client_id=5180832&display=popup&scope=offline,wall&response_type=code&v=5.40&redirect_uri=http://vk-ploader.dev/auth.php";
-            window.location.href = "https://oauth.vk.com/authorize?client_id=5180832&display=popup&scope=offline,wall&response_type=code&v=5.40&redirect_uri=https://oauth.vk.com/blank.html";
+            window.location.href = "https://oauth.vk.com/authorize?client_id=5180832&display=popup&scope=offline,wall,photos&response_type=code&v=5.40&redirect_uri=https://oauth.vk.com/blank.html";
         }
     }
     //262144 + 4 + 8192

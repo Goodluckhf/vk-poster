@@ -24,7 +24,8 @@ var Posts = function(group) {
         //console.log($(this).data());
         var $this = $(this);
         var key = $this.data('id');
-        //console.log(posts[key]);
+        console.log(posts[key]);
+        return;
         var attachments = posts[key].attachments;
         var attachAr = [];
         for(var i in attachments) {

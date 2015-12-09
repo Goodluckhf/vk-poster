@@ -30,6 +30,7 @@ var PostProvider = (new function() {
         var data = {};
         data.data = {};
        // data.unixTime = (new moment(this.currentDate)).unix();
+       
         data.data.message = d.message;
         data.data.attachments = d.attachments;
         data.data.publish_date = this.currentDate;
@@ -37,7 +38,7 @@ var PostProvider = (new function() {
         data.data.v = 5.40;
         data.url = "/ajax.php";
         
-        
+       //var form = $('<form ></form>') 
        
         //console.log(d);
         //console.log(data);
