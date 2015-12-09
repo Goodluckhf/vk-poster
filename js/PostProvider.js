@@ -13,7 +13,7 @@ var PostProvider = (new function() {
     
     this.dateInterval;
     
-    this.publicId;
+    this.publicId = '';
     
     this.postAsGroup = 1;
     

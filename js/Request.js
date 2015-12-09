@@ -18,7 +18,7 @@ var Request = (new function() {
         }
         return $.ajax({
             url: data.url,
-            //dataType: 'json',
+            dataType: 'json',
             data: data.data,
             method: 'post'
         });

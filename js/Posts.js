@@ -22,7 +22,8 @@ var Posts = function(group) {
     
     $(containerSelector).on('click', '.accept-post', function() {
         //console.log($(this).data());
-        var key = $(this).data('id');
+        var $this = $(this);
+        var key = $this.data('id');
         //console.log(posts[key]);
         var attachments = posts[key].attachments;
         var attachAr = [];
@@ -33,6 +34,9 @@ var Posts = function(group) {
             message: posts[key].text,
             attachments: attachAr.join(','),
         }).done(function(data) {
+            toastr["success"]("Пост отправлен!", 'Ура');
+            $this.parents('.box-widget').fadeOut();
+            //console.log();
             console.log(data);
         });
         
@@ -66,15 +70,7 @@ var Posts = function(group) {
                
                 for(var j in attachments) {
                      $item.find('.attachment-block').append('<img src="' + attachments[j].photo.photo_130 + '">');
-//                    if(attachments[j].type == 'photo') {
-//                        $item.find('.attachment-block').append('<img src="' + attachments[j].photo.photo_130 + '">');
-//                    }
-//                    else {
-//                        isNotPhoto = true;
-//                    }                    
-//                }
-//                if(isNotPhoto) {
-//                    continue;
+
                 }
                
                 $(containerSelector).append($item);
