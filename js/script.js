@@ -1,7 +1,13 @@
 var App = (new function () {
     var events = new EventsContainer();
     events.register('ready');
-
+    
+    this.getCookie = function(name) {
+        var matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
     this.contentSelector = 'section.content .tab-content';
 
     this.loadingBlock = function (block) {
@@ -19,8 +25,9 @@ var App = (new function () {
     }
 
     this.start = function () {
-        this.loadingBlock('.modal-dialog');
+        //console.log(this.getCookie('vk-token'));
         AuthService.auth();
+        
     }
 
 });
@@ -43,7 +50,7 @@ $(function () {
 
     });
     AuthService.onReady(function () {
-        console.log({user: AuthService.user(), token: AuthService.token()});
+        console.log({user: AuthService.id(), token: AuthService.token()});
         var str = '';
         bootbox.hideAll();
         $('.date-picker').datetimepicker({
@@ -72,6 +79,16 @@ $(function () {
         /**
          * @required String|Element
          */
+//         url:'https://oauth.vk.com/authorize',
+//            data: {
+//                client_id: 5180832,
+//                display:'popup',
+//                scope: 'photo,groups,wall',
+//                response_type: 'code',
+//                v: 5.40,
+//                redirect_uri: 'https://api.vk.com/blank.html'
+//            }
+        //message: '<center><button class="btn btn-primary login">Войти ВКонтакте</button></center>',
         message: '<center><button class="btn btn-primary login">Войти ВКонтакте</button></center>',
         /**
          * @optional String|Element

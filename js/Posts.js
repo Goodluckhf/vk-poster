@@ -31,14 +31,14 @@ var Posts = function(group) {
         }        
         PostProvider.post({
             message: posts[key].text,
-            //attachments: attachAr.join(','),
+            attachments: attachAr.join(','),
         }).done(function(data) {
             console.log(data);
         });
         
     });
     var getVkatachment = function(atach) {
-        return 'photo' + 173428463 + '_' + atach.id;
+        return 'photo' + atach.owner_id + '_' + atach.id;
     }
     this.render = function() {
         return this.load().done(function(data) {
@@ -108,7 +108,7 @@ var Posts = function(group) {
                     //post.id = lastId++;
                     posts.push(post);
                 }
-                //console.log(posts);
+               // console.log(posts);
             }
         }); 
     }

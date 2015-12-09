@@ -9,7 +9,18 @@ var Request = (new function() {
             url: 'https://api.vk.com/method/' + method,
             dataType: 'jsonp',
             data: data,
-           // method: 'post'
+            method: 'post'
+        });
+    }
+    this.send = function(data) {
+        if(AuthService.isAuth()) {
+            data.data.access_token = AuthService.token();
+        }
+        return $.ajax({
+            url: data.url,
+            //dataType: 'json',
+            data: data.data,
+            method: 'post'
         });
     }
     

@@ -28,15 +28,24 @@ var PostProvider = (new function() {
     
     this.post = function(d) {
         var data = {};
-        data.unixTime = (new moment(this.currentDate)).unix();
-        data.message = d.message;
-        data.attachments = d.attachments;
-        data.publish_date = this.currentDate;
-        data.owner_id = this.publicId;
-        data.v = 5.40;
+        data.data = {};
+       // data.unixTime = (new moment(this.currentDate)).unix();
+        data.data.message = d.message;
+        data.data.attachments = d.attachments;
+        data.data.publish_date = this.currentDate;
+        data.data.owner_id = this.publicId;
+        data.data.v = 5.40;
+        data.url = "/ajax.php";
         
-        console.log(data);
-        return Request.api("wall.post", data).done(function() {
+        
+       
+        //console.log(d);
+        //console.log(data);
+//        return Request.api("wall.post", data).done(function() {
+//            me.inc();
+//        });      
+        return Request.send(data).done(function(r) {
+            console.log(r);
             me.inc();
         });      
     }
@@ -44,7 +53,10 @@ var PostProvider = (new function() {
     this.inc = function() {
         var newTime = $('.date-picker').data('DateTimePicker').date().add(this.dateInterval, 'm').toDate();
         $('.date-picker').data('DateTimePicker').date(newTime);
-        this.currentDate = newTime;
+        //console.log(newTime);
+        var unixTime = (new moment(newTime)).unix();
+        //console.log(unixTime);
+        this.currentDate = unixTime;
     }
     
     
