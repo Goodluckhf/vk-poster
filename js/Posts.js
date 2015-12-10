@@ -21,42 +21,26 @@ var Posts = function(group) {
         containerSelector = App.contentSelector;
     
     $(containerSelector).on('click', '.accept-post', function(e) {
-        //console.log($(this).data());
+        var $this = $(this);
+        var block = $this.parents('.box-widget');
+        me.loadingBlock(block);
         
         // при загрузки другой группы событие срабатывает 2 раза
-        var $this = $(this);
-        var key = $this.data('id');
-        //console.log(e);
-        console.log(posts[key]);
-        //return;
-//        var attachments = posts[key].attachments;
-//        var attachAr = [];
-//        for(var i in attachments) {
-//            attachAr.push(getVkatachment(attachments[i].photo));
-//        }
         
-//        Request.send({
-//            url: '/upload.php',
-//            data: {
-//                post: posts[key],
-//                group_id: PostProvider.publicId,
-//                publish_date: $('.date-picker').data('DateTimePicker').date().unix()
-//            }
-//        }).done(function(data) {
-//            console.log(data);
-//        });
-//        
-//        return;
+        var key = $this.data('id');
+        
+        console.log(posts[key]);
         
         PostProvider.post({
             post: posts[key]
         }).done(function(data) {            
             if(data.response) {
                 toastr["success"]("Пост отправлен!", 'Ура');
-                $this.parents('.box-widget').fadeOut();
+                block.fadeOut();
             }
             else {
                 toastr["error"]('Что-то пошло не так!', 'Ой');
+                block.find('.ajax-loader').remove();
             }
         });
         
@@ -157,5 +141,18 @@ var Posts = function(group) {
         time = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min;
 
         return time;
+    }
+    this.loadingBlock = function (block) {
+        var $block = $(block);
+        var div = $('<div class="ajax-loader" style="position:absolute; background-color:rgba(255,255,255,0.8); z-index:10;"><center><img src="/img/ajax-loader.gif"></center></div>');
+
+        div.width($block.width());
+        div.height($block.height());
+        div.position().left = $block.position().left;
+        div.position().top = $block.position().top;
+
+        $block.prepend(div);
+
+        div.find('img').css({'margin-top': div.height() / 2 - 25 + 'px'});
     }
 }

@@ -41,7 +41,7 @@ class VkApi {
     const IMG_DIR = __DIR__ . '/vk-images/';
     const API_URL = 'https://api.vk.com/method/';
     
-    //private $uploadUrl;
+    private $uploadServer;
     private $token;
     private $groupId;
     private $userId;
@@ -97,10 +97,13 @@ class VkApi {
     }
     
     public function getUploadServer() {
-        return $this->callApi('photos.getWallUploadServer', [
-            'group_id' => $this->groupId * (-1),
-            'access_token' => $this->token,            
-        ]);
+        if(!isset($this->uploadServer)) {
+            $this->uploadServer = $this->callApi('photos.getWallUploadServer', [
+                'group_id' => $this->groupId * (-1),
+                'access_token' => $this->token,            
+            ]);
+        }
+        return $this->uploadServer;
     } 
     
     public function sendImgs($uploadUrl, $imgs) {
@@ -120,6 +123,7 @@ class VkApi {
     public function curlPost() {
         $photos = $this->post['attachments'];
         $imgs = [];
+        $resultPhotoResponse = [];
         foreach($photos as $key => $photo) {
             if($photo['type'] != 'photo') {
                 continue;
@@ -129,8 +133,39 @@ class VkApi {
             $imgs['file' . ($key + 1) ] = curl_file_create($imgFile, 'image/jpeg','test_name.jpg');
         }
         $uploadResult = $this->getUploadServer();
-        $result = $this->sendImgs($uploadResult['response']['upload_url'], $imgs);
-        return $result;
+//        PR($imgs);
+//        die();
+        if(count($imgs) > 6) {
+            $firstImgs = [];
+            $lastImgs = [];
+            
+            $i = 1;
+            foreach($imgs as $key => $val) {
+                if($i <= 6) {
+                    $firstImgs[$key] = $val;
+                }
+                else if($i > 6) {
+                    $lastImgs['file' . ($i - 6)] = $val;
+                }                
+                $i++;
+            }
+            $result = $this->sendImgs($uploadResult['response']['upload_url'], $firstImgs);
+            $photosResponse1 = $this->saveWallPhoto($result['photo'], $result['server'], $result['hash']);
+//            PR([$firstImgs, $lastImgs]);
+//            die();
+            $result2 = $this->sendImgs($uploadResult['response']['upload_url'], $lastImgs);
+            $photosResponse2 = $this->saveWallPhoto($result2['photo'], $result2['server'], $result2['hash']);
+//            PR([$photosResponse1, $photosResponse2]);
+//            die();
+            $resultPhotoResponseList = array_merge($photosResponse1['response'], $photosResponse2['response']);
+            $resultPhotoResponse['response'] = $resultPhotoResponseList;
+        }
+        else {
+            $result = $this->sendImgs($uploadResult['response']['upload_url'], $imgs);
+            $resultPhotoResponse = $this->saveWallPhoto($result['photo'], $result['server'], $result['hash']);
+        }
+        
+        return $resultPhotoResponse;
     }
     
     public function saveWallPhoto($photo, $server, $hash) {
@@ -170,8 +205,10 @@ if(isset($_REQUEST['group_id']) && isset($_REQUEST['publish_date'])) {
     $vk = new VkApi($_COOKIE['vk-token'], $_REQUEST['group_id'], $_COOKIE['vk-user-id']);
     $vk->setPost($_REQUEST['post']);
     $result = $vk->curlPost();
-    $photosResponse = $vk->saveWallPhoto($result['photo'], $result['server'], $result['hash']);
-    $resPost = $vk->post($_REQUEST['publish_date'], $vk->getPhotosByResponse($photosResponse));
+//    PR($result);
+//    die();
+    //$photosResponse = $vk->saveWallPhoto($result['photo'], $result['server'], $result['hash']);
+    $resPost = $vk->post($_REQUEST['publish_date'], $vk->getPhotosByResponse($result));
     echo json_encode($resPost);
 
     die();

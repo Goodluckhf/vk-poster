@@ -22,7 +22,7 @@ var PostProvider = (new function() {
         this.startDate = data.startDate;
         this.currentDate = data.startDate;
         this.dateInterval = data.interval || 30;
-        this.publicId = data.publicId || 'meal4real';
+        this.publicId = data.publicId || -107952301;
         
     }
     
@@ -37,6 +37,7 @@ var PostProvider = (new function() {
         return Request.send(data).done(function(r) {
             if(r.response) {
                 console.log(r.response);
+                me.inc();
             }
             else {
                 toastr["error"]('Что-то пошло не так!', 'Ой');

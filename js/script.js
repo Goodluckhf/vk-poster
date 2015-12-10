@@ -56,15 +56,15 @@ $(function () {
         bootbox.hideAll();
         $('.date-picker').datetimepicker({
             locale: 'ru',
-            stepping: 1,
+            stepping: 5,
             toolbarPlacement: 'bottom'
             //sideBySide: true
         });
         $('.saveConfig').click(function() {
             PostProvider.start({
                 startDate: $('.date-picker').data('DateTimePicker').date().unix(),
-                dateInterval: 45,
-                publicId : -107952301,
+                interval: 45,
+                publicId : -77686561,
             });
         });
         
