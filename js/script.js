@@ -45,6 +45,7 @@ $(function () {
     $('#search-btn').click(function () {
         App.loadingBlock(App.contentSelector);
         var group = $('.group-search-inp').val().trim();
+        // переделать на setData
         var posts = new Posts(group);
         posts.render();
 

@@ -20,25 +20,44 @@ var Posts = function(group) {
         groupName = group.trim(),
         containerSelector = App.contentSelector;
     
-    $(containerSelector).on('click', '.accept-post', function() {
+    $(containerSelector).on('click', '.accept-post', function(e) {
         //console.log($(this).data());
+        
+        // при загрузки другой группы событие срабатывает 2 раза
         var $this = $(this);
         var key = $this.data('id');
+        //console.log(e);
         console.log(posts[key]);
-        return;
-        var attachments = posts[key].attachments;
-        var attachAr = [];
-        for(var i in attachments) {
-            attachAr.push(getVkatachment(attachments[i].photo));
-        }        
+        //return;
+//        var attachments = posts[key].attachments;
+//        var attachAr = [];
+//        for(var i in attachments) {
+//            attachAr.push(getVkatachment(attachments[i].photo));
+//        }
+        
+//        Request.send({
+//            url: '/upload.php',
+//            data: {
+//                post: posts[key],
+//                group_id: PostProvider.publicId,
+//                publish_date: $('.date-picker').data('DateTimePicker').date().unix()
+//            }
+//        }).done(function(data) {
+//            console.log(data);
+//        });
+//        
+//        return;
+        
         PostProvider.post({
-            message: posts[key].text,
-            attachments: attachAr.join(','),
-        }).done(function(data) {
-            toastr["success"]("Пост отправлен!", 'Ура');
-            $this.parents('.box-widget').fadeOut();
-            //console.log();
-            console.log(data);
+            post: posts[key]
+        }).done(function(data) {            
+            if(data.response) {
+                toastr["success"]("Пост отправлен!", 'Ура');
+                $this.parents('.box-widget').fadeOut();
+            }
+            else {
+                toastr["error"]('Что-то пошло не так!', 'Ой');
+            }
         });
         
     });
@@ -46,6 +65,8 @@ var Posts = function(group) {
         return 'photo' + atach.owner_id + '_' + atach.id;
     }
     this.render = function() {
+        posts = [];
+        
         return this.load().done(function(data) {
             $(containerSelector).html(" ");
 
@@ -80,7 +101,7 @@ var Posts = function(group) {
     }
     
     this.load = function() {
-        return Request.api('wall.get', {domain: group, count: 10, v: 5.40}).done(function(data) {
+        return Request.api('wall.get', {domain: group, count: 100, v: 5.40}).done(function(data) {
             if(data.response) {
                 var items = data.response.items;
                 count = data.response.count;

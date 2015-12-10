@@ -29,25 +29,19 @@ var PostProvider = (new function() {
     this.post = function(d) {
         var data = {};
         data.data = {};
-       // data.unixTime = (new moment(this.currentDate)).unix();
-       
-        data.data.message = d.message;
-        data.data.attachments = d.attachments;
+
+        data.data.post = d.post;
         data.data.publish_date = this.currentDate;
-        data.data.owner_id = this.publicId;
-        data.data.v = 5.40;
-        data.url = "/ajax.php";
-        
-       //var form = $('<form ></form>') 
-       
-        //console.log(d);
-        //console.log(data);
-//        return Request.api("wall.post", data).done(function() {
-//            me.inc();
-//        });      
+        data.data.group_id = this.publicId;
+        data.url = '/upload.php'
         return Request.send(data).done(function(r) {
-            console.log(r);
-            me.inc();
+            if(r.response) {
+                console.log(r.response);
+            }
+            else {
+                toastr["error"]('Что-то пошло не так!', 'Ой');
+            }
+            
         });      
     }
     
