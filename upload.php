@@ -46,12 +46,14 @@ class VkApi {
     private $groupId;
     private $userId;
     private $post;
+    private $user_agent;
     
     
     public function __construct($token, $groupId, $userId) {
         $this->userId = $userId;
         $this->token = $token;
         $this->groupId = $groupId;
+        $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
     }
     
     public function setPost($post) {
@@ -109,9 +111,12 @@ class VkApi {
     public function sendImgs($uploadUrl, $imgs) {
         $curl=curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_RETURNTRANSFER => true, 
+            CURLOPT_USERAGENT => $this->user_agent,
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_URL => $uploadUrl,
-            CURLOPT_POST => 1,
+            CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $imgs
         ));
         $postResult = curl_exec($curl);
@@ -144,14 +149,22 @@ class VkApi {
             $i = 1;
             foreach($imgs as $key => $val) {
                 if($i <= 6) {
-                    $firstImgs[$key] = $val;
+                    $firstImgs['file' . $i] = $val;
                 }
                 else if($i > 6) {
                     $lastImgs['file' . ($i - 6)] = $val;
                 }                
                 $i++;
             }
+//            PR([
+//                'first' => $firstImgs,
+//                'last' => $lastImgs
+//            ]);
+           
             $result = $this->sendImgs($uploadResult['response']['upload_url'], $firstImgs);
+//            PR([
+//                'upload1' => $result
+//            ]);
             $photosResponse1 = $this->saveWallPhoto($result['photo'], $result['server'], $result['hash']);
 //            PR([$firstImgs, $lastImgs]);
 //            die();
@@ -166,11 +179,17 @@ class VkApi {
             $result = $this->sendImgs($uploadResult['response']['upload_url'], $imgs);
             $resultPhotoResponse = $this->saveWallPhoto($result['photo'], $result['server'], $result['hash']);
         }
-        
+        //PR($imgs);
+        foreach($imgs as $val) {
+            unlink($val->name);
+        }
         return $resultPhotoResponse;
     }
     
     public function saveWallPhoto($photo, $server, $hash) {
+//        PR([
+//            'photo' => $photo,
+//        ]);
         $data = [
             'photo'  => $photo,
             'server' => $server,

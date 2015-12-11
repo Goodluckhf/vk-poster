@@ -12,7 +12,7 @@ var App = (new function () {
 
     this.loadingBlock = function (block) {
         var $block = $(block);
-        var div = $('<div style="position:absolute; background-color:rgba(255,255,255,0.8); z-index:10;"><center><img src="/img/ajax-loader.gif"></center></div>');
+        var div = $('<div class="ajax-loader" style="position:absolute; background-color:rgba(255,255,255,0.8); z-index:10;"><center><img src="/img/ajax-loader.gif"></center></div>');
 
         div.width($block.width());
         div.height($block.height());
@@ -42,12 +42,15 @@ $(function () {
         $(this).siblings('span.hidden-text').show();
         $(this).remove();
     });
+    var posts = new Posts();
     $('#search-btn').click(function () {
         App.loadingBlock(App.contentSelector);
         var group = $('.group-search-inp').val().trim();
         // переделать на setData
-        var posts = new Posts(group);
-        posts.render();
+        
+        //posts.setGroup(group);
+        PostProvider.loadPosts(group, 20);
+        //posts.render();
 
     });
     AuthService.onReady(function () {
@@ -63,7 +66,7 @@ $(function () {
         $('.saveConfig').click(function() {
             PostProvider.start({
                 startDate: $('.date-picker').data('DateTimePicker').date().unix(),
-                interval: 45,
+                interval: 30,
                 publicId : -107952301,
                 //publicId : -77686561,
             });
@@ -87,7 +90,8 @@ $(function () {
         $('.messages-menu .dropdown-menu').on('click', 'a.group-selector', function() {
             $('.group-list-select').text($(this).data('name'));
             $('.group-list-select').data('id', $(this).data('id'));
-            console.log($('.group-list-select').data());
+            //console.log($('.group-list-select').data());
+            PostProvider.setPublic($(this).data('id'));
         });
         
         

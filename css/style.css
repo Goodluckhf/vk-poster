@@ -88,3 +88,8 @@
     box-shadow: none;
     height: 35px;
 }
+
+div.button-wrapper {
+    margin: 0 auto;
+    width:100px;
+}
