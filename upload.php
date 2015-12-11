@@ -133,6 +133,8 @@ class VkApi {
             $imgs['file' . ($key + 1) ] = curl_file_create($imgFile, 'image/jpeg','test_name.jpg');
         }
         $uploadResult = $this->getUploadServer();
+        //PR($uploadResult);
+        
 //        PR($imgs);
 //        die();
         if(count($imgs) > 6) {

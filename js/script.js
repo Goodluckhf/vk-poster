@@ -64,9 +64,35 @@ $(function () {
             PostProvider.start({
                 startDate: $('.date-picker').data('DateTimePicker').date().unix(),
                 interval: 45,
-                publicId : -77686561,
+                publicId : -107952301,
+                //publicId : -77686561,
             });
         });
+        var menuItem = '<li>' +
+                            '<a class="group-selector" href="#">' +
+                                '<div class="pull-left">' +
+                                    '<img alt="" class="img-circle" src="">' +
+                                '</div>' +
+                                '<h4></h4>' +                                                    
+                            '</a>' +
+                        '</li>';
+        var groups = AuthService.getGroups();
+        for(var i in groups) {
+            var $item = $(menuItem);
+            $item.find('img').attr('src', groups[i].photo_50);
+            $item.find('h4').text(groups[i].name);
+            $item.find('a').data('id', (groups[i].id * (-1))).data('name', groups[i].name);
+            $('.messages-menu .slimScrollDiv ul.menu').append($item);
+        }
+        $('.messages-menu .dropdown-menu').on('click', 'a.group-selector', function() {
+            $('.group-list-select').text($(this).data('name'));
+            $('.group-list-select').data('id', $(this).data('id'));
+            console.log($('.group-list-select').data());
+        });
+        
+        
+        
+        
         
         
 
