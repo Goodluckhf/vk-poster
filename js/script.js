@@ -44,12 +44,13 @@ $(function () {
     });
     var posts = new Posts();
     $('#search-btn').click(function () {
+        $(App.contentSelector).html(" ");
         App.loadingBlock(App.contentSelector);
         var group = $('.group-search-inp').val().trim();
         // переделать на setData
         
         //posts.setGroup(group);
-        PostProvider.loadPosts(group, 20);
+        PostProvider.loadPosts(group, 300);
         //posts.render();
 
     });
@@ -67,7 +68,7 @@ $(function () {
             PostProvider.start({
                 startDate: $('.date-picker').data('DateTimePicker').date().unix(),
                 interval: 30,
-                publicId : -107952301,
+                //publicId : -107952301,
                 //publicId : -77686561,
             });
         });
@@ -93,6 +94,12 @@ $(function () {
             //console.log($('.group-list-select').data());
             PostProvider.setPublic($(this).data('id'));
         });
+        
+        $('a.sort-by-reposts').click(function() {            
+            PostProvider.sortByReposts();            
+        });
+        
+        
         
         
         

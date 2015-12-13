@@ -24,6 +24,10 @@ var Posts = function() {
     
     
     $(containerSelector).on('click', '.accept-post', function(e) {
+        if(!PostProvider.startDate || !PostProvider.publicId) {
+            alert('Не выбрана дата, и/или группа, в которую нужно постить!');
+            return;
+        }
         var $this = $(this);
         var block = $this.parents('.box-widget');
         me.loadingBlock($this.parents('div.button-wrapper'));
@@ -43,14 +47,16 @@ var Posts = function() {
         });
         
     });
-
+    
+    
+    
     this.render = function(data) {
         
         //return this.load().done(function(data) {
             //$(containerSelector).html(" ");
         $('.ajax-loader').remove();
         var posts = data['items'];    
-        for(var i = data.lastKey; i < data['items'].length; i++) {
+        for(var i = 0; i < 50; i++) {
             var $item = $(templateItem);
             var text;
             if(posts[i].text.length > 300) {
@@ -81,7 +87,10 @@ var Posts = function() {
     }
     
     PostProvider.onPostLoad(function(data) {
-        console.log(data);
+        me.render(data); 
+    });
+    PostProvider.onSorted(function(data) {
+        $(App.contentSelector).html(" ");
         me.render(data); 
     });
     
